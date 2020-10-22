@@ -4,32 +4,46 @@ class Window(Frame):
     """
     docstring
     """
-    def __init__(self,master= None):
-        Frame.__init__(self,master)
-        self.master = master        
-        # self.menu = Menu(self.master)
+    #Widgets
 
-        # self.master.config(menu=self.menu)
-        # self.fileMenu = Menu(self.menu)
-        # self.fileMenu.add_command(label="Item")
-        # self.fileMenu.add_command(label="Exit", command=self.__cerrar)
-        # self.menu.add_cascade(label="File", menu=self.fileMenu)
+    def __init__(self,root= None):
+        Frame.__init__(self,root)        
+        self.root = root
 
-        # self.editMenu = Menu(self.menu)
-        # self.editMenu.add_command(label="Undo")
-        # self.editMenu.add_command(label="Redo")
-        # self.menu.add_cascade(label="Edit", menu=self.editMenu)   
-
-        table = Table(self.master)     
+        table = Table(self.root)     # PEP 582; used by e.g. github.com/David-OConnor/pyflow
+        self.label("Tabla de contenido",x=.6,y=0)        
         # widget can take all window
+        self.label("Tema:",x=.0,y=.5) 
+        self.tema = self.entry(x=.2,y=.6)
+        self.submit = self.button(self.insertar,"Ingresar",x=.5,y=.6)
         
-    def label(self,content="Label"):
-        self.texto = Label(self,text="Hola tkinter")
-        self.texto.place(x=0,y=30)
+    def label(self,content="Label", y=.1,x=.1):
+        texto = Label(self.root,text=content)
+        texto.place(relx=x,rely=y)
+        return texto
         
-    def button(self,name="Button"):
-        botoncito = Button(self, text=name, command=self.__cerrar)
-        botoncito.place(x=0,y=0)
-        
+    def button(self,function,name="Button",y=.1,x=.1):
+        botoncito = Button(self.root, text=name, command=function)
+        botoncito.place(relx=x,rely=y,anchor=S)    
+    def insertar(self):
+        self.insert_theme(self.tema.get())
+
+    def entry(self,y=.1,x=.1):        
+        e = Entry(self.root,textvariable=StringVar())
+        e.place(relx=x,rely=y,anchor=S)        
+        return e
+
+    def insert_theme(self,descripcion):
+        conexion = connect(host="localhost",user="root",password="test", db="troubleshooting")
+        cursor = conexion.cursor()
+
+        cursor.execute("insert into tema(descripcion,eliminado) values(%s, %s)",(descripcion,0))        
+        conexion.commit()
+        print(cursor.rowcount,'rows inserted')
+
     def __cerrar(self):
         exit()
+
+
+if __name__ == "__main__":
+    print("Hey, no estás en main xd")
