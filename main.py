@@ -1,12 +1,12 @@
 #!./myvenv/bin/python
 from Window import *
 from tkinter import *
-from mysql.connector import *
+import mysql.connector
 from Table import *
 
 def select():
     result = []
-    conexion = connect(host="localhost",user="root",password="test", db="troubleshooting")
+    conexion = connect(host="localhost",user="root",password="test", db="troubleshooting",use_pure=True)
     cursor = conexion.cursor()
     cursor.execute("select codigo,descripcion from tema")
     for codigo,descripcion in cursor.fetchall():
@@ -20,6 +20,6 @@ if __name__ == "__main__":
     
     root.wm_title("App de Tik tok xd")
     root.geometry("500x500")
-    
+
     app = Window(root)
     root.mainloop()
