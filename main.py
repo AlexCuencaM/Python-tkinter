@@ -1,14 +1,12 @@
 #!./myvenv/bin/python
-from Window import *
 from tkinter import *
-
+from Tema import Tema
 from Table import *
-
+from Window import Window
 if __name__ == "__main__":        
     root = Tk()
-    
-    root.wm_title("App de Tik tok xd")
+    tema = Tema()    
+    root.wm_title("App de Coliflor")
     root.geometry("500x500")
-
-    app = Window(root)
+    app = Window(tema,root)
     root.mainloop()

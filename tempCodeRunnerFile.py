@@ -1,1 +1,1 @@
-root.geometry("320x200")
+from Tema import Tema
